@@ -7,3 +7,7 @@
 //
 
 #include "Strategy.hpp"
+#include <stdio.h>
+#include <iostream>
+using namespace std;
+
