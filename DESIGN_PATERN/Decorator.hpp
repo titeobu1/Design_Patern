@@ -47,8 +47,6 @@ public:
 
 class Beef : public Hamburger
 {
-private:
-    BuyAHamburger* buyAHamburger;
 public:
     Beef(BuyAHamburger* _buyAHamburger): Hamburger(_buyAHamburger){}
     virtual void getDescription()
@@ -71,8 +69,6 @@ public:
 
 class Tomato : public Hamburger
 {
-private:
-    BuyAHamburger* buyAHamburger;
 public:
     Tomato(BuyAHamburger* _buyAHamburger): Hamburger(_buyAHamburger){}
     void getDescription()

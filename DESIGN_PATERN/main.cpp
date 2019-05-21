@@ -11,16 +11,19 @@
 #include "Observer.hpp"
 #include "Facade.cpp"
 #include "Decorator.hpp"
+#include "Factory.cpp"
 void testStrategy();
 void testObserver();
 void testFacadeAndSingleton();
 void testDecorator();
+void testFactory();
 
 int main(int argc, const char * argv[]) {
 //    testStrategy();
 //    testObserver();
     // testFacadeAndSingleton();
-    testDecorator();
+    // testDecorator();
+    testFactory();
     return 0;
 }
 
@@ -61,4 +64,21 @@ void testDecorator()
     BuyAHamburger *aHamburger = new Tomato(new Salad(new Beef(new Hamburger(new MyHamBurger()))));
     aHamburger->getDescription();
 
+}
+
+void testFactory()
+{
+    FurnitureAbstractFactory *myWoodFactory = SuperFactory::getFactory(SuperFactory::FactoryType::WOOD);
+    Chair *myFirstChair = myWoodFactory->createChair();
+    myFirstChair->create();
+    Table *myFirstTable = myWoodFactory->createTable();
+    myFirstTable->create();
+
+    cout << "Creating Plastic table and chair" << endl;
+
+    FurnitureAbstractFactory *myPlasticFactory = SuperFactory::getFactory(SuperFactory::FactoryType::PLASTIC);
+    Chair *mySecondChair = myPlasticFactory->createChair();
+    mySecondChair->create();
+    Table *mySecondTable = myPlasticFactory->createTable();
+    mySecondTable->create();
 }

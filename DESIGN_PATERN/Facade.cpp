@@ -55,4 +55,3 @@ void ShopFacade::buyProductByCOD()
     paymentService.payByCOD();
     shippingService.CODShip();
 }
-

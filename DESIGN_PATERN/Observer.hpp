@@ -20,9 +20,6 @@ using std::vector;
 enum LoginStatus {
     SUCCESS, FAILURE, INVALID, EXPIRED
 };
-//m[FAILURE] = "FAILURE";
-//m[INVALID] = "INVALID";
-//m[EXPIRED] = "EXPIRED";
 
 class User
 {
