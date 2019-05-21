@@ -7,23 +7,27 @@
 //
 
 #include <iostream>
+#include <string>
 #include "Strategy.hpp"
 #include "Observer.hpp"
 #include "Facade.cpp"
 #include "Decorator.hpp"
 #include "Factory.cpp"
+#include "Adapter.cpp"
 void testStrategy();
 void testObserver();
 void testFacadeAndSingleton();
 void testDecorator();
 void testFactory();
+void testAdapter();
 
 int main(int argc, const char * argv[]) {
 //    testStrategy();
 //    testObserver();
     // testFacadeAndSingleton();
     // testDecorator();
-    testFactory();
+    // testFactory();
+    testAdapter();
     return 0;
 }
 
@@ -81,4 +85,20 @@ void testFactory()
     mySecondChair->create();
     Table *mySecondTable = myPlasticFactory->createTable();
     mySecondTable->create();
+}
+
+void testAdapter()
+{
+    SimpleName simpleName("NGUYEN HAI");
+    ComplexName *compleName = new AdapterToComplexName(simpleName);
+    cout << "Your First Name is: " << compleName->getFirstName() << endl;
+    cout << "Your Last Name is: " << compleName->getLastName() << endl;
+
+    cout << "Changing Your First Name to Ly: " <<  endl;
+    compleName->setFirstName("Ly");
+
+    cout << "Your First Name is: " << compleName->getFirstName() << endl;
+    cout << "Your Last Name is: " << compleName->getLastName() << endl;
+
+    cout << "You are a Singer now" <<  endl;
 }

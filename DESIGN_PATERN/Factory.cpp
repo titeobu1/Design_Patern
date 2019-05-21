@@ -1,6 +1,3 @@
-#ifndef Factory_hpp
-#define Factory_hpp
-
 #include <stdio.h>
 #include <iostream>
 using namespace std;
@@ -118,5 +115,3 @@ public:
         }
     }
 };
-
-#endif /* Factory_hpp */
