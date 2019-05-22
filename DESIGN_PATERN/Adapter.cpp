@@ -50,7 +50,6 @@ class AdapterToComplexName: public ComplexName
 public:
     AdapterToComplexName(SimpleName simpleName)
     {
-        string arr[2];
         stringstream ssin(simpleName.getName());
         while (ssin.good())
         {

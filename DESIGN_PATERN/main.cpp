@@ -14,12 +14,14 @@
 #include "Decorator.hpp"
 #include "Factory.cpp"
 #include "Adapter.cpp"
+#include "Iterator.cpp"
 void testStrategy();
 void testObserver();
 void testFacadeAndSingleton();
 void testDecorator();
 void testFactory();
 void testAdapter();
+void testIterator();
 
 int main(int argc, const char * argv[]) {
 //    testStrategy();
@@ -27,7 +29,8 @@ int main(int argc, const char * argv[]) {
     // testFacadeAndSingleton();
     // testDecorator();
     // testFactory();
-    testAdapter();
+    // testAdapter();
+    testIterator();
     return 0;
 }
 
@@ -101,4 +104,21 @@ void testAdapter()
     cout << "Your Last Name is: " << compleName->getLastName() << endl;
 
     cout << "You are a Singer now" <<  endl;
+}
+
+void testIterator()
+{
+    Devision *sale = new Devision("sale");
+    sale->addMem(Employee("Hai", sale->getName()));
+
+    sale->addMem(Employee("Hai Sida", sale->getName()));
+
+    sale->addMem(Employee("Hai Da het Sida", sale->getName()));
+
+    DevisionIterator di = sale->iterator();
+    while(di.hasNext())
+    {
+        Employee emp = di.next();
+        emp.print();
+    }
 }
