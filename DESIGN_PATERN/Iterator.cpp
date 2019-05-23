@@ -1,3 +1,5 @@
+
+#include "Iterator.hpp"
 #include <stdio.h>
 #include <iostream>
 #include <string>
@@ -5,96 +7,95 @@
 #include <array>
 #include <iterator>
 using namespace std;
+class EmployeeIterator;
 
-const int MAX_EMP_DEVISION = 5;
-
-class Employee
+//Employee
+Employee::Employee(string n, string d)
 {
-public:
-    string name;
-    string devision;
-    Employee(){} // NEED A DEFAULT CONSTRUCTOR TO INIT AN ARRAY OF OBJECT
-    Employee(string n, string d)
-    {
-        name = n;
-        devision = d;
-    }
+    name = n;
+    devision = d;
+}
 
-    void print()
-    {
-        cout << "name: " << name << ", devision: " << devision << endl;
-    }
-
-    Employee(const Employee& other)
-    {
-        this->name = other.name;
-        this->devision = other.devision;
-    }
-    const Employee& operator=(const Employee other)
-    {
-        this->name = other.name;
-        this->devision = other.devision;
-        return *this;
-    }
-};
-
-template <typename T>
-class Iterator
+void Employee::print()
 {
-public:
-    Iterator(){}
-    virtual T next() = 0;
-    virtual bool hasNext() = 0;
-};
+    cout << "name: " << Employee::getName() << ", devision: " << devision << endl;
+}
 
-class DevisionIterator : public Iterator<Employee>
+Employee::Employee(const Employee* other)
 {
-public:
-    std::array<Employee,MAX_EMP_DEVISION> emps;
-    int currentIndex;
-    DevisionIterator(std::array<Employee,MAX_EMP_DEVISION> _emps)
-    {
-        emps = _emps;
-        currentIndex = 0;
-    }
-
-    virtual Employee next() override
-    {
-        return emps[currentIndex++];
-    }
-
-    virtual bool hasNext() override
-    {
-        return (emps.size() > currentIndex && emps[currentIndex].name != "")  ? true : false;
-    }
-
-};
-
-class Devision
+    Employee::name = other->name;
+    Employee::devision = other->devision;
+}
+const Employee& Employee::operator=(const Employee other)
 {
-public:
-    string name;
-    std::array<Employee,MAX_EMP_DEVISION> emps;
-    int number_emps;
-    Devision(string n)
-    {
-        name = n;
-        number_emps = 0;
-    }
-    void addMem(Employee emp)
-    {
-        emps[number_emps++] = emp;
-    }
+    Employee::name = other.name;
+    Employee::devision = other.devision;
+    return *this;
+}
 
-    string getName()
-    {
-        return name;
-    }
+Iterator *Employee::iterator()
+{
+    return new EmployeeIterator();
+}
 
-    DevisionIterator iterator()
-    {
-        return DevisionIterator(emps);
-    }
-};
+//EmployeeIterator
+EmployeeIterator::EmployeeIterator(Employee *_emp)
+{
+    EmployeeIterator::emp = _emp;
+}
 
+EmployeeIterator::EmployeeIterator()
+{
+}
+Corporate *EmployeeIterator::next() 
+{
+    return EmployeeIterator::emp;
+}
+bool EmployeeIterator::hasNext()
+{
+    return false;
+}
+
+// DevisionIterator
+DevisionIterator::DevisionIterator(std::array<Employee*,MAX_EMP_DEVISION> _emps)
+{
+    DevisionIterator::emps = _emps;
+    DevisionIterator::currentIndex = 0;
+}
+
+Corporate *DevisionIterator::next()
+{
+    return DevisionIterator::emps[currentIndex++];
+}
+
+bool DevisionIterator::hasNext()
+{
+    return (DevisionIterator::emps.size() > DevisionIterator::currentIndex && DevisionIterator::emps[currentIndex]->name != "")  ? true : false;
+}
+
+// Devision
+Devision::Devision(string n)
+{
+    Devision::name = n;
+    Devision::number_emps = 0;
+}
+void Devision::add(Corporate *emp)
+{
+    Devision::emps[Devision::number_emps++] = static_cast<Employee*>(emp);
+}
+
+Iterator *Devision::iterator()
+{
+    return new DevisionIterator(emps);
+}
+
+void Devision::print()
+{
+    Iterator *ite = Devision::iterator();
+    while(ite->hasNext())
+    {
+        Employee *emp = static_cast<Employee*>(ite->next());
+        emp->print();
+    }
+}
 

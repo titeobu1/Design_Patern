@@ -14,7 +14,7 @@
 #include "Decorator.hpp"
 #include "Factory.cpp"
 #include "Adapter.cpp"
-#include "Iterator.cpp"
+#include "Iterator.hpp"
 void testStrategy();
 void testObserver();
 void testFacadeAndSingleton();
@@ -109,16 +109,15 @@ void testAdapter()
 void testIterator()
 {
     Devision *sale = new Devision("sale");
-    sale->addMem(Employee("Hai", sale->getName()));
+    sale->add(static_cast<Corporate*>(new Employee("Hai", sale->getName())));
+    sale->add(static_cast<Corporate*>(new Employee("Hai Sida", sale->getName())));
 
-    sale->addMem(Employee("Hai Sida", sale->getName()));
+    Devision *HR = new Devision("HR");
+    HR->add(static_cast<Corporate*>(new Employee("SEN 1", sale->getName())));
+    HR->add(static_cast<Corporate*>(new Employee("SEN 2", sale->getName())));
+    HR->add(static_cast<Corporate*>(new Employee("SEN 3", sale->getName())));
 
-    sale->addMem(Employee("Hai Da het Sida", sale->getName()));
+    sale->add(HR);
 
-    DevisionIterator di = sale->iterator();
-    while(di.hasNext())
-    {
-        Employee emp = di.next();
-        emp.print();
-    }
+    sale->print();
 }
