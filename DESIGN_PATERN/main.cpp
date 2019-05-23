@@ -15,6 +15,7 @@
 #include "Factory.cpp"
 #include "Adapter.cpp"
 #include "Iterator.hpp"
+#include "Template.hpp"
 void testStrategy();
 void testObserver();
 void testFacadeAndSingleton();
@@ -22,6 +23,7 @@ void testDecorator();
 void testFactory();
 void testAdapter();
 void testIterator();
+void testTemplate();
 
 int main(int argc, const char * argv[]) {
 //    testStrategy();
@@ -30,7 +32,8 @@ int main(int argc, const char * argv[]) {
     // testDecorator();
     // testFactory();
     // testAdapter();
-    testIterator();
+    // testIterator();
+    testTemplate();
     return 0;
 }
 
@@ -120,4 +123,12 @@ void testIterator()
     sale->add(HR);
 
     sale->print();
+}
+
+void testTemplate()
+{
+    FlyBot flyBot;
+    flyBot.go();
+    CookingBot cookBot;
+    cookBot.go();
 }
