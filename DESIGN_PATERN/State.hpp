@@ -17,6 +17,11 @@ class State
 public:
     int numberApartments = 3;
     int currentState = WATTING_STATE;
+    State(State *state)
+    {
+        currentState = state->currentState;
+        numberApartments = state->numberApartments;
+    }
     State(int prevState, int prevNumApart)
     {
         currentState = prevState;
@@ -34,6 +39,7 @@ class GotApplicationState: public State
 {
 public:
     GotApplicationState(int prevState, int prevNumApart) : State(prevState, prevNumApart){};
+    GotApplicationState(State *state) : State(state){};
     virtual void handleState() override
     {
         switch (currentState)
@@ -62,6 +68,7 @@ class CheckingState: public State
 {
 public:
     CheckingState(int prevState, int prevNumApart) : State(prevState, prevNumApart){};
+    CheckingState(State *state) : State(state){};
     virtual void handleState() override
     {
         switch (currentState)
@@ -99,6 +106,7 @@ class ApartmentRentedState: public State
 {
 public:
     ApartmentRentedState(int prevState, int prevNumApart) : State(prevState, prevNumApart){};
+    ApartmentRentedState(State *state) : State(state){};
     virtual void handleState() override
     {
         switch (currentState)
@@ -128,6 +136,7 @@ class PassKeyState: public State
 {
 public:
     PassKeyState(int prevState, int prevNumApart) : State(prevState, prevNumApart){};
+    PassKeyState(State *state) : State(state){};
     virtual void handleState() override
     {
         switch (currentState)
@@ -173,17 +182,17 @@ public:
             state->handleState();
         } else
         {
-            state = new GotApplicationState(state->currentState, state->numberApartments);
+            state = new GotApplicationState(state);
             state->handleState();
         }
 
-        state = new CheckingState(state->currentState, state->numberApartments);
+        state = new CheckingState(state);
         state->handleState();
 
-        state = new ApartmentRentedState(state->currentState, state->numberApartments);
+        state = new ApartmentRentedState(state);
         state->handleState();
 
-        state = new PassKeyState(state->currentState, state->numberApartments);
+        state = new PassKeyState(state);
         state->handleState();
     }
 };
