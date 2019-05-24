@@ -17,6 +17,7 @@
 #include "Iterator.hpp"
 #include "Template.hpp"
 #include "Builder.hpp"
+#include "State.hpp"
 void testStrategy();
 void testObserver();
 void testFacadeAndSingleton();
@@ -26,6 +27,7 @@ void testAdapter();
 void testIterator();
 void testTemplate();
 void testBuilder();
+void testState();
 
 int main(int argc, const char * argv[]) {
 //    testStrategy();
@@ -36,7 +38,8 @@ int main(int argc, const char * argv[]) {
     // testAdapter();
     // testIterator();
     // testTemplate();
-    testBuilder();
+    // testBuilder();
+    testState();
     return 0;
 }
 
@@ -166,4 +169,14 @@ void testBuilder()
     {
         goto chooseARobot;
     }
+}
+
+void testState()
+{
+    ApartmentContext *atc = new ApartmentContext();
+    atc->applyNewApplication();
+    atc->applyNewApplication();
+    atc->applyNewApplication();
+    atc->applyNewApplication();
+    atc->applyNewApplication();
 }
