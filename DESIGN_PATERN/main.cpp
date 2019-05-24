@@ -16,6 +16,7 @@
 #include "Adapter.cpp"
 #include "Iterator.hpp"
 #include "Template.hpp"
+#include "Builder.hpp"
 void testStrategy();
 void testObserver();
 void testFacadeAndSingleton();
@@ -24,6 +25,7 @@ void testFactory();
 void testAdapter();
 void testIterator();
 void testTemplate();
+void testBuilder();
 
 int main(int argc, const char * argv[]) {
 //    testStrategy();
@@ -33,7 +35,8 @@ int main(int argc, const char * argv[]) {
     // testFactory();
     // testAdapter();
     // testIterator();
-    testTemplate();
+    // testTemplate();
+    testBuilder();
     return 0;
 }
 
@@ -131,4 +134,36 @@ void testTemplate()
     flyBot.go();
     CookingBot cookBot;
     cookBot.go();
+}
+
+void testBuilder()
+{
+    RobotBuildAble *robotBuildAble;
+    int robotType, key;
+    chooseARobot :
+    cout << "Enter the the robot type you want to build, FlyBot(1), CookieBot(2): "; 
+    cin >> robotType; // input the type
+    switch (robotType)
+    {
+        case 1:
+            robotBuildAble = new FlyBotBuildable();
+            break;
+        case 2:
+            robotBuildAble = new CookingBotBuildable();
+            break;
+        default:
+            cout << "Don't support this type, please choose again!" << endl;
+            goto chooseARobot;
+    }
+    robotBuildAble->addStart();
+    robotBuildAble->addTest();
+    robotBuildAble->addTest();
+    robotBuildAble->addRun();
+    robotBuildAble->go();
+    cout << "Do you want to create another robot, YES(1), No(Any Key): "; 
+    cin >> key;
+    if (key == 1)
+    {
+        goto chooseARobot;
+    }
 }
