@@ -20,6 +20,7 @@
 #include "State.hpp"
 #include "Prototype.hpp"
 #include "Command.hpp"
+#include "ChainOfResponsibility.hpp"
 void testStrategy();
 void testObserver();
 void testFacadeAndSingleton();
@@ -32,6 +33,7 @@ void testBuilder();
 void testState();
 void testPrototype();
 void testCommand();
+void testChainOfResponsibility();
 
 int main(int argc, const char * argv[]) {
     // testStrategy();
@@ -45,7 +47,8 @@ int main(int argc, const char * argv[]) {
     // testBuilder();
     // testState();
     // testPrototype();
-    testCommand();
+    // testCommand();
+    testChainOfResponsibility();
     return 0;
 }
 
@@ -271,4 +274,24 @@ void testCommand()
         goto chooseAFood;
     }
     waiter.executeOrder();
+}
+
+void testChainOfResponsibility()
+{
+    
+    Supervisor *sup = new Supervisor();
+    Manager *mng = new Manager();
+    Director *director = new Director();
+
+    sup->setNext(mng);
+    mng->setNext(director);
+
+    beginApprove:
+    int tmp;
+    cout << "Enter your number of days you want to approve: "; 
+    cin >> tmp; 
+
+    LeaveRequest req(tmp);
+    sup->approveLeave(req);
+    goto beginApprove;
 }
