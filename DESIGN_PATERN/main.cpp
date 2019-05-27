@@ -19,6 +19,7 @@
 #include "Builder.hpp"
 #include "State.hpp"
 #include "Prototype.hpp"
+#include "Command.hpp"
 void testStrategy();
 void testObserver();
 void testFacadeAndSingleton();
@@ -30,6 +31,7 @@ void testTemplate();
 void testBuilder();
 void testState();
 void testPrototype();
+void testCommand();
 
 int main(int argc, const char * argv[]) {
     // testStrategy();
@@ -42,7 +44,8 @@ int main(int argc, const char * argv[]) {
     // testTemplate();
     // testBuilder();
     // testState();
-    testPrototype();
+    // testPrototype();
+    testCommand();
     return 0;
 }
 
@@ -239,4 +242,33 @@ void testPrototype()
     {
         goto chooseARobot;
     }
+}
+void testCommand()
+{
+    Waiter waiter;
+    Order *order;
+    int tmp;
+    chooseAFood :
+    cout << "Hay chon mon an ban muon goi, Cua_Rang_Me(1), Canh_Chua(2): "; 
+    cin >> tmp; // input the type
+    switch (static_cast<ORDER>(tmp))
+    {
+        case ORDER::CUA_RANG_ME:
+            order = new Cua_Rang_Me();
+            break;
+        case ORDER::CANH_CHUA:
+            order = new Canh_Chua();
+            break;
+        default:
+            cout << "Xin chon lai mon khac anh ei!" << endl;
+            goto chooseAFood;
+    }
+    waiter.listOrder(order);
+    cout << "Ban co muon chon them mon khac khong, YES(1), No(Any Key): "; 
+    cin >> tmp;
+    if (tmp == 1)
+    {
+        goto chooseAFood;
+    }
+    waiter.executeOrder();
 }
