@@ -18,6 +18,7 @@
 #include "Template.hpp"
 #include "Builder.hpp"
 #include "State.hpp"
+#include "Prototype.hpp"
 void testStrategy();
 void testObserver();
 void testFacadeAndSingleton();
@@ -28,10 +29,11 @@ void testIterator();
 void testTemplate();
 void testBuilder();
 void testState();
+void testPrototype();
 
 int main(int argc, const char * argv[]) {
-//    testStrategy();
-//    testObserver();
+    // testStrategy();
+    // testObserver();
     // testFacadeAndSingleton();
     // testDecorator();
     // testFactory();
@@ -39,7 +41,8 @@ int main(int argc, const char * argv[]) {
     // testIterator();
     // testTemplate();
     // testBuilder();
-    testState();
+    // testState();
+    testPrototype();
     return 0;
 }
 
@@ -143,6 +146,7 @@ void testBuilder()
 {
     RobotBuildAble *robotBuildAble;
     int robotType, key;
+    string robotName;
     chooseARobot :
     cout << "Enter the the robot type you want to build, FlyBot(1), CookieBot(2): "; 
     cin >> robotType; // input the type
@@ -162,6 +166,12 @@ void testBuilder()
     robotBuildAble->addTest();
     robotBuildAble->addTest();
     robotBuildAble->addRun();
+    cout << "Enter robot name: ";
+    cin >> robotName;
+    if(!robotName.empty())
+    {
+        robotBuildAble->setName(robotName);
+    }
     robotBuildAble->go();
     cout << "Do you want to create another robot, YES(1), No(Any Key): "; 
     cin >> key;
@@ -179,4 +189,54 @@ void testState()
     atc->applyNewApplication();
     atc->applyNewApplication();
     atc->applyNewApplication();
+}
+
+void testPrototype()
+{
+    chooseARobot :
+    RobotBuildAble *res;
+    pair<ROBOT_TYPE, vector<ROBOT_ACTIONS> > robot_detail;
+    ROBOT_TYPE robotType;
+    int key;
+    int tmp;
+    ROBOT_ACTIONS robot_action;
+    vector<ROBOT_ACTIONS> robot_actions;
+    string robot_name;
+    cout << "Enter the the robot type you want to build, FlyBot(1), CookieBot(2): "; 
+    cin >> tmp;
+    robotType = static_cast<ROBOT_TYPE>(tmp); // input the type
+    switch (robotType)
+    {
+        case 1:
+            robotType = ROBOT_TYPE::FLY_BOT;
+            break;
+        case 2:
+            robotType = ROBOT_TYPE::COOKIE_BOT;
+            break;
+        default:
+            cout << "Don't support this type, please choose again!" << endl;
+            goto chooseARobot;
+    }
+    designActions :
+    {
+        cout << "Let's design your robot actions, start(1), test(2), run(3), finish create(0): "; 
+        cin >> tmp;
+        robot_action = static_cast<ROBOT_ACTIONS>(tmp);
+        if(robot_action != 0)
+        {
+            robot_actions.push_back(robot_action);
+            goto designActions;
+        }
+    }
+    cout << "Enter robot name: ";
+    cin >> robot_name;
+    robot_detail = make_pair(robotType, robot_actions);
+    res = RobotFactory::getRobot(robot_detail, robot_name);
+    res->go();
+    cout << "Do you want to create another robot, YES(1), No(Any Key): "; 
+    cin >> key;
+    if (key == 1)
+    {
+        goto chooseARobot;
+    }
 }

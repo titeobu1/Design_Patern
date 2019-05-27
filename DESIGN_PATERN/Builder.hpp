@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <vector>
+#include <string>
 using namespace std;
 
 const int ACTION_START = 0;
@@ -13,6 +14,11 @@ class RobotBuildAble
 {
 public:
     vector<int> actions;
+    string name;
+    void setName(string n)
+    {
+        name = n;
+    }
     void addStart()
     {
         actions.push_back(ACTION_START);
@@ -34,6 +40,10 @@ public:
         {
             cout << "Please build your robot's action before going" << endl;
             return;
+        }
+        if (!name.empty())
+        {
+            cout << name << " is preparing to go" << endl;
         }
         // for(vector<int>::iterator it = actions.begin(); it != actions.end(); ++it) {
         for ( auto &it : actions ) {
