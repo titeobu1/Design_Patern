@@ -2,15 +2,15 @@
 #define State_hpp
 #include <stdio.h>
 #include <iostream>
-#include <vector>
-#include <cstdlib>
 using namespace std;
 
-const int WATTING_STATE             = 0;
-const int GOT_APPLICATION_STATE     = WATTING_STATE + 1;
-const int CHECKING_STATE            = GOT_APPLICATION_STATE + 1;;
-const int FULLY_STATE               = CHECKING_STATE + 1;
-const int APARTMENT_RENTED_STATE    = FULLY_STATE + 1;
+enum STATE{
+    WATTING_STATE,
+    GOT_APPLICATION_STATE,
+    HECKING_STATE,
+    FULLY_STATE,
+    APARTMENT_RENTED_STATE
+};
 
 class State
 {
