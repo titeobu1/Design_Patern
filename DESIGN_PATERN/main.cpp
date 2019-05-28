@@ -21,6 +21,7 @@
 #include "Prototype.hpp"
 #include "Command.hpp"
 #include "ChainOfResponsibility.hpp"
+#include "ProtectionProxy.hpp"
 void testStrategy();
 void testObserver();
 void testFacadeAndSingleton();
@@ -34,6 +35,7 @@ void testState();
 void testPrototype();
 void testCommand();
 void testChainOfResponsibility();
+void testProtectionProxy();
 
 int main(int argc, const char * argv[]) {
     // testStrategy();
@@ -48,7 +50,8 @@ int main(int argc, const char * argv[]) {
     // testState();
     // testPrototype();
     // testCommand();
-    testChainOfResponsibility();
+    // testChainOfResponsibility();
+    testProtectionProxy();
     return 0;
 }
 
@@ -294,4 +297,17 @@ void testChainOfResponsibility()
     LeaveRequest req(tmp);
     sup->approveLeave(req);
     goto beginApprove;
+}
+
+void testProtectionProxy()
+{
+    UserServiceProxy proxy;
+    proxy.listUsers();
+    proxy.inserUser(ProtectionUser("1", "Hai 1"), PERMISSION::ADMIN);
+    proxy.inserUser(ProtectionUser("2", "Hai 2"), PERMISSION::ADMIN);
+    proxy.inserUser(ProtectionUser("3", "Hai 3"), PERMISSION::ADMIN);
+
+    proxy.listUsers();
+
+    proxy.inserUser(ProtectionUser("3", "Hai 3 "), PERMISSION::CUSTOMER);
 }
